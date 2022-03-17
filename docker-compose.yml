@@ -13,12 +13,12 @@ services:
       - main_network
   node:
     container_name: app
-    image: keymetrics/pm2:14-alpine
+    image: example-name
+    build:
+      context: ./
+      dockerfile: Dockerfile
     ports:
       - ${PORT:-4000}:3000
     working_dir: /mnt/app
-    networks:
-      - main_network
-    volumes:
-      - ./app:/mnt/app
-      - /mnt/app/node_modules
+    command: >
+      sh -c "pm2-runtime start /mnt/app/linux.config.js --env production"
